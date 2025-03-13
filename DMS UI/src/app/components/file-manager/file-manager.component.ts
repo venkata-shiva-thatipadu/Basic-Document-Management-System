@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
  import { DropDownButton, ItemModel } from '@syncfusion/ej2-splitbuttons';
  import { FileManagerComponent} from '@syncfusion/ej2-angular-filemanager';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-file-manager',
@@ -12,18 +13,23 @@ export class FilesManagerComponent {
   public toolbarSettings?: any;
   public contextMenuSettings?: object;
   public view?: string;
-
-  public hostUrl: string = '';
+  public hostUrl?: string;
+  configData: any;
   
   @ViewChild('filemanagerObj') public filemanagerObj?: FileManagerComponent;
   public items: ItemModel[] = [{ text: 'Folder' }, { text: 'Files' }];
+
+  constructor(private config: ConfigService) {
+  }
   
-  public ngOnInit(): void {
+  async ngOnInit() {
+    this.configData = await this.config.getData();
+    this.hostUrl = this.configData.hostUrl;
     this.ajaxSettings = {
-        url: this.hostUrl + '',
-        getImageUrl: this.hostUrl + '',
-        uploadUrl: this.hostUrl + '',
-        downloadUrl: this.hostUrl + ''
+        url: this.hostUrl + this.configData.fileOperationsUrl,
+        getImageUrl: this.hostUrl + this.configData.getImageUrl,
+        uploadUrl: this.hostUrl + this.configData.uploadUrl,
+        downloadUrl: this.hostUrl + this.configData.downloadUrl
     };
     this.view = "Details";
 
