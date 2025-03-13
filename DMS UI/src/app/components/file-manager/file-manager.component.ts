@@ -10,10 +10,19 @@ import { ConfigService } from '../../services/config.service';
 })
 export class FilesManagerComponent {
   public ajaxSettings?: object;
-  public toolbarSettings?: any;
+  public toolbarSettings?: object;
   public contextMenuSettings?: object;
   public view?: string;
   public hostUrl?: string;
+  public detailsViewSettings?: object;
+  public navigationPaneSettings?: object;
+  public showFileExtension?: boolean;
+  public showThumbnail?: boolean;
+  public showHiddenItems?: boolean;
+  public uploadSettings?: object;
+  public allowMultiSelection?: boolean;
+  public enableRangeSelection?: boolean;
+  public allowDragAndDrop?: boolean;
   configData: any;
   
   @ViewChild('filemanagerObj') public filemanagerObj?: FileManagerComponent;
@@ -91,6 +100,21 @@ export class FilesManagerComponent {
       ],
       visible: true,
     };
+    this.detailsViewSettings = {
+      columns: [
+          {field: 'name', headerText: 'Name', minWidth: 120, width: 'auto', customAttributes: { class: 'e-fe-grid-name' },template: '${name}'},
+          {field: 'dateModified', headerText: 'Modified Date', minWidth: 70, width: '320', template: '${dateModified}'},
+          {field: 'size', headerText: 'Size', minWidth: 50, width: '110', template: '${size}'},
+      ]
+    };
+    this.navigationPaneSettings = { maxWidth: '850px', minWidth: '140px', visible: true};
+    this.showFileExtension = true;
+    this.showThumbnail = true;
+    this.showHiddenItems = true;
+    this.uploadSettings = { maxFileSize: 233332, minFileSize: 120, autoUpload: true};
+    this.allowMultiSelection = true;
+    this.enableRangeSelection = true;
+    this.allowDragAndDrop = false;
   };
   
   onCreated(args: any) {
